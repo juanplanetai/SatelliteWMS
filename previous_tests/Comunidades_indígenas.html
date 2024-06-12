@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Attach a popup to a marker instance</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<style>
+    #marker_la_ceiba {
+        background-image: url('https://www.minambiente.gov.co/wp-content/uploads/2022/03/Asi-se-revive-la-cultura-de-siglos-del-pueblo-indigena-tukano.jpg');
+        background-size: cover;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    #marker_coayare {
+        background-image: url('https://artesaniasdecolombia.com.co/Documentos/Contenido/20713_sabanita-g.jpg');
+        background-size: cover;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    #marker_el_venado {
+        background-image: url('https://lh3.googleusercontent.com/p/AF1QipPU-IBP0cj2TOEV5IId5nBNLsYUOATvVTK_V3C8=s680-w680-h510');
+        background-size: cover;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    #marker_cuiari_isana {
+        background-image: url('https://consejoderedaccion.org/images/ri%CC%81o-amazo%CC%81nico.jpg');
+        background-size: cover;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    #marker_tonina_sejal {
+        background-image: url('https://imagenes.eltiempo.com/files/image_1200_600/uploads/2024/02/26/65dcbf1c93d76.png');
+        background-size: cover;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup {
+        max-width: 200px;
+    }
+</style>
+
+<div id="map"></div>
+
+<script>
+    // Access to mapbox
+	mapboxgl.accessToken = 'pk.eyJ1IjoibWFmZWdvbnphbGV6IiwiYSI6ImNscnYyb3Z5MDBteGsya25hZWpmYTdsNzcifQ.3Rj3jRdf_iSTNOdT26iqUg';
+
+    // Map with center in Guinía.
+    const map = new mapboxgl.Map({
+        container: 'map',
+        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+        style: 'mapbox://styles/mapbox/satellite-v9',
+        center: [-68.8, 2.816667], //Guainia coordinates
+        zoom: 7
+    });
+    const guainia_popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        "GUAINÍA"
+    );
+    const marker1 = new mapboxgl.Marker()
+        .setLngLat([-68.8, 2.816667])
+        .setPopup(guainia_popup)
+        .addTo(map);
+    
+    //La Ceiba
+    const la_ceiba = {coords: [-67.88276, 3.629131],
+                        description: 'El asentamiento indígena La Ceiba obtiene su nombre del árbol homólogo que crece en esta zona del Guainía. La comunidad, fiel a su conexión con la naturaleza y al medio ambiente, ofrece turismo de naturaleza para mostrar la gran riqueza en biodiversidad que existe en el Guainía. El líder de esta comunidad pertenece a la etnia Tukano.'};
+    const la_ceiba_popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        la_ceiba.description
+    );
+    const el_la_ceiba = document.createElement('div');
+    el_la_ceiba.id = 'marker_la_ceiba';
+    // create the marker
+    new mapboxgl.Marker(el_la_ceiba)
+        .setLngLat(la_ceiba.coords)
+        .setPopup(la_ceiba_popup) // sets a popup on this marker
+        .addTo(map);
+
+    //Cuenca Media y Alta Río Inírida
+    const coayare = {coords: [-67.832578, 3.957079],
+        description: 'El Resguardo Cuenca Media y Alta Río Inírida (CMARI) lo conforman las comunidades de Sabanita, Punta Pava, Punta Ratón, Sejal Báquiro, Bellavista, Zancudo, Guacamaya y Caño Negro. Su etnia principal es la Puinave. Se dedican a la horticultura, la pesca, recolección y caza en menor escala.'};
+    const coayare_popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        coayare.description
+    );
+    const el_coayare = document.createElement('div');
+    el_coayare.id = 'marker_coayare';
+    // create the marker
+    new mapboxgl.Marker(el_coayare)
+    .setLngLat(coayare.coords)
+    .setPopup(coayare_popup) // sets a popup on this marker
+    .addTo(map);
+
+    //El Venado
+    const el_venado = {coords: [-67.989814, 3.448118],
+        description: 'Asentamiento El Venado. Fue fundado hacia el año 1952. Este es un asentamiento en el que confluyen las cosmovisiones y saberes de múltiples comunidades indígenas.'};
+    const el_venado_popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        el_venado.description
+    );
+    const el_el_venado = document.createElement('div');
+    el_el_venado.id = 'marker_el_venado';
+    // create the marker
+    new mapboxgl.Marker(el_el_venado)
+    .setLngLat(el_venado.coords)
+    .setPopup(el_venado_popup) // sets a popup on this marker
+    .addTo(map);
+
+    //Puerto Colombia, Ríos cuiari e isana
+    const cuiari_isana = {coords: [-67.566014, 2.720278],
+        description: 'El resguadro de los ríos Isana y Cuyari comprende las comunidades de Belén de Arara, Venaito, Caracas del Yari, Amanaven, Sabanita, Berrocal y Campo Alegre. Su etnia mayoritaria es la Curripaco. De acuerdo a la ley de origen de los Curripaco, actualmente asentados en la región del centro y sur del departamento el Guainía, el Isana, sería el centro del mundo, particularmente en los raudales de Yandú y Uapui.'};
+    const cuiari_isana_popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        cuiari_isana.description
+    );
+    const el_cuiari_isana = document.createElement('div');
+    el_cuiari_isana.id = 'marker_cuiari_isana';
+    // create the marker
+    new mapboxgl.Marker(el_cuiari_isana)
+    .setLngLat(cuiari_isana.coords)
+    .setPopup(cuiari_isana_popup) // sets a popup on this marker
+    .addTo(map);
+
+    //Tonina Sejal
+    const tonina_sejal = {coords: [-67.770868, 2.828668],
+        description: 'El resguardo Tonina-Sejal-San José se traslapa en un 4% con la Reserva Nacional Natural Puinawai. Es una comunidad compuesta principalmente por la etnia Curripaco. De acuerdo a la ley de origen de los Curripaco, actualmente asentados en la región del centro y sur del departamento el Guainía, el Isana, sería el centro del mundo, particularmente en los raudales de Yandú y Uapui.'};
+    const tonina_sejal_popup = new mapboxgl.Popup({ offset: 25 }).setText(
+        tonina_sejal.description
+    );
+    const el_tonina_sejal = document.createElement('div');
+    el_tonina_sejal.id = 'marker_tonina_sejal';
+    // create the marker
+    new mapboxgl.Marker(el_tonina_sejal)
+    .setLngLat(tonina_sejal.coords)
+    .setPopup(tonina_sejal_popup) // sets a popup on this marker
+    .addTo(map);
+    
+
+    
+
+    
+    
+    
+
+</script>
+
+</body>
+</html>

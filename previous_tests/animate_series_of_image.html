@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Animate a series of images</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoibWFmZWdvbnphbGV6IiwiYSI6ImNscnYyb3Z5MDBteGsya25hZWpmYTdsNzcifQ.3Rj3jRdf_iSTNOdT26iqUg';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+        style: 'mapbox://styles/mapbox/satellite-v9',
+        zoom: 14,
+        center: [-69.268, 2.171]
+    });
+
+    const frameCount = 4;
+    let currentImage = 0;
+
+    forestImages = ["https://i.ibb.co/6BT8qsR/Deforestacion-2018-09-20-00-00-2018-09-20-23-59-Sentinel-2-L2-A-True-color.png",
+    "https://i.ibb.co/H2zty0F/Deforestacion-2020-02-12-00-00-2020-02-12-23-59-Sentinel-2-L2-A-True-color.png", 
+    "https://i.ibb.co/ByYzVfT/Deforestacion-2022-05-02-00-00-2022-05-02-23-59-Sentinel-2-L2-A-True-color.png", 
+    "https://i.ibb.co/y8PdfBq/Deforestacion-2023-02-01-00-00-2023-02-01-23-59-Sentinel-2-L2-A-True-color.png"]
+
+    function getPath() {
+        return forestImages[currentImage];
+    }
+
+
+    map.on('load', () => {
+        map.addSource('radar', {
+            type: 'image',
+            url: getPath(),
+            coordinates: [ //lon lat
+                [-69.28372708821935, 2.1799627365490752], //left-top
+                [-69.25085791034128, 2.1799627365490752], //right-top
+                [-69.25085791034128, 2.163091646644444], //right-bot
+                [-69.28372708821935, 2.163091646644444], //left-bot
+                 //left-bot
+            ]
+        });
+        map.addLayer({
+            id: 'radar-layer',
+            'type': 'raster',
+            'source': 'radar',
+            'paint': {
+                'raster-fade-duration': 0
+            }
+        });
+
+        setInterval(() => {
+            currentImage = (currentImage + 1) % frameCount;
+            map.getSource('radar').updateImage({ url: getPath() });
+        }, 2000);
+    });
+</script>
+
+</body>
+</html>
